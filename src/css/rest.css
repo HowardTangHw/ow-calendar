@@ -1,0 +1,36 @@
+/* body {
+  -webkit-user-select: none;
+} */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+em,
+i {
+  font-style: normal
+}
+
+li {
+  list-style: none
+}
+
+img {
+  border: 0;
+  vertical-align: middle
+}
+
+button {
+  cursor: pointer
+}
+
+a {
+  color: #666;
+  text-decoration: none
+}
+
+a:hover {
+  color: #c81623
+}

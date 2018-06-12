@@ -1,6 +1,10 @@
 var path = require('path')
 var webpack = require('webpack')
-
+const webpackServer = {
+  protocol: 'http://',
+  host: '0.0.0.0',
+  port: '8080'
+}
 module.exports = {
   entry: './src/main.js',
   output: {
@@ -79,9 +83,10 @@ module.exports = {
     extensions: ['*', '.js', '.vue', '.json']
   },
   devServer: {
+    host: webpackServer.host,
     historyApiFallback: true,
     noInfo: true,
-    overlay: true
+    overlay: true,
   },
   performance: {
     hints: false
