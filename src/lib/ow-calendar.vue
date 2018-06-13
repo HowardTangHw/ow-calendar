@@ -27,8 +27,8 @@
         </div>
       </section>
       <footer class="footer">
-        <span class="info">{{ choiceDays }}</span>
-        <span class="btn" @click="confirm">保存</span>
+        <span class="info">{{ choiceInfo }}</span>
+        <span :class="['btn',choiceFlag==true?'':'btn-cancel']" @click="confirm">保存</span>
       </footer>
     </div>
 
@@ -75,6 +75,10 @@ export default {
       type: String,
       default: 'pop-fade',
     },
+    needChoiceDays: {
+      type: [Number, String],
+      default: 0,
+    },
   },
   created() {
     this.getAllMonthData(this.showMonthNumbers);
@@ -94,15 +98,33 @@ export default {
       }
       return [];
     },
-    choiceDays() {
-      if (!this.checkInDate.day) return '未选择';
-      if (!this.multiple) return `已选择  ${this.checkInDate.day.date}`;
-      if (!this.checkOutDate.day || !this.checkOutDate.day.isCheckOutDate) return '请选择结束日期';
-      //
+    choiceDaysCount() {
       const left = this.leftDate;
       const right = this.rightDate;
       const iDays = parseInt(Math.abs(left - right) / 1000 / 60 / 60 / 24) + 1;
-      return `${iDays}天${iDays - 1}晚`;
+      return iDays;
+    },
+    choiceFlag() {
+      if (!this.checkInDate.day) return 0;
+      if (!this.multiple) return 1;
+      if (!this.checkOutDate.day || !this.checkOutDate.day.isCheckOutDate) return 2;
+
+      if (this.choiceDaysCount < this.needChoiceDays) return 3;
+      return true;
+    },
+    choiceInfo() {
+      switch (this.choiceFlag) {
+        case 0:
+          return '未选择';
+        case 1:
+          return `已选择  ${this.checkInDate.day.date}`;
+        case 2:
+          return '请选择结束日期';
+        case 3:
+          return `选择天数不足，至少需要选择${this.needChoiceDays}天`;
+        default:
+          return `${this.choiceDaysCount}天${this.choiceDaysCount - 1}晚`;
+      }
     },
     leftDate() {
       return new Date(this.checkInDate.day.date.replace(/-/g, '/'));
@@ -243,6 +265,7 @@ export default {
       return left <= now && now <= right;
     },
     confirm() {
+      if (this.choiceFlag !== true) return false;
       this.show = false;
       this.$emit('confirm', ...this.resultDate);
     },
@@ -402,6 +425,9 @@ export default {
     font-size: 28px;
     color: #fff;
     margin-top: 36px;
+  }
+  .btn-cancel {
+    background: #e5e5e5;
   }
 }
 .pop-fade-enter-active,

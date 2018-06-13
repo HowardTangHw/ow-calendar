@@ -11,7 +11,8 @@
 <body>
   <div id="app">
     <div @click="calendarShow=true">按钮按钮</div>
-    <ow-calendar v-model="calendarShow" @confirm="fn" :multiple="true"></ow-calendar>
+    <ow-calendar v-model="calendarShow" @confirm="fn" :multiple="true" :start-date="'2019-06-20'" :show-month-numbers="24" :disabled-date="['2018-06-20']"
+      :need-choice-days="10"></ow-calendar>
   </div>
   <script src="./node_modules/vue/dist/vue.js"></script>
   <script src="/dist/build.js"></script>

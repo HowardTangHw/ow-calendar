@@ -57,13 +57,14 @@ export default {
 
 ### props
 
-| 属性             | 说明             | 类型           | 默认值   |
-| :--------------- | ---------------- | -------------- | -------- |
-| showMonthNumbers | 要展示多少个月份 | Number, String | 12       |
-| startDate        | 开始的日期       | Date           | 今天     |
-| disabledDate     | 不可选的日期     | Array          | 无       |
-| multiple         | 开启多选模式     | Boolean        | false    |
-| transition       | 过渡效果         | String         | pop-fade |
+| 属性               | 说明                              | 类型           | 默认值   |
+| :----------------- | --------------------------------- | -------------- | -------- |
+| show-month-numbers | 要展示多少个月份                  | Number, String | 12       |
+| start-date         | 开始的日期                        | Date           | 今天     |
+| disabled-date      | 不可选的日期                      | Array          | 无       |
+| multiple           | 开启多选模式                      | Boolean        | false    |
+| transition         | 过渡效果                          | String         | pop-fade |
+| need-choice-days   | 至少选择的天数,与multiple配合使用 | Number,String  | 0        |
 
 ### Event:
 

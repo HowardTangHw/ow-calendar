@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div @click="calendarShow=true">按钮按钮</div>
+    <div @click="calendarShow=true">按钮按钮123123</div>
     <ow-calendar v-model="calendarShow" @confirm="fn" :multiple="true" />
   </div>
 </template>
