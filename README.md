@@ -10,7 +10,7 @@
 **NPM**
 
 ```bash
-npm i ow-calendar
+npm i ow-calendar -S
 ```
 
 **YARN**
