@@ -94,7 +94,7 @@ export default {
           this.checkInDate.day && this.checkInDate.day.isCheckInDate ? this.checkInDate.day.date : undefined;
         const endDate =
           this.checkOutDate.day && this.checkOutDate.day.isCheckOutDate ? this.checkOutDate.day.date : undefined;
-        return [startDate, endDate];
+        return [startDate, endDate, this.choiceDaysCount];
       }
       return [];
     },
