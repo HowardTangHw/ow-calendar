@@ -1,57 +1,59 @@
 <template>
-  <div class="ow-calendar-wrapper">
-    <header class="header">
-      <div class="tit">选择时间</div>
-      <div class="days-list">
-        <span>日</span>
-        <span>一</span>
-        <span>二</span>
-        <span>三</span>
-        <span>四</span>
-        <span>五</span>
-        <span>六</span>
-      </div>
-    </header>
-    <section class="content">
-      <div class="calendar" v-for="(month,index) in allMonthData" :key="index">
-        <div class="calendar-tit">
-          <span>{{month.month}}月</span> {{month.year}}</div>
-        <ul>
-          <li :class="{disable: day.isDisable,select: day.isCheckInDate||day.isCheckOutDate,selectB:selectCss(day.date)}" @click="selectDate(month, day)" v-for="(day,index) in month.date" :key="index">
-            <span>{{day.showDate}}</span>
-          </li>
-        </ul>
-      </div>
-    </section>
-    <footer class="footer">
-      <span class="info">共3天2晚</span>
-      <span class="btn" @click="confirm">保存</span>
-    </footer>
-  </div>
+  <transition :name="transition">
+    <div class="ow-calendar-wrapper" v-show="show">
+      <header class="header">
+        <div class="tit">选择时间</div>
+        <div class="days-list">
+          <span>日</span>
+          <span>一</span>
+          <span>二</span>
+          <span>三</span>
+          <span>四</span>
+          <span>五</span>
+          <span>六</span>
+        </div>
+        <i class="close" @click="show=false"></i>
+      </header>
+      <section class="content">
+        <div class="calendar" v-for="(month,index) in allMonthData" :key="index">
+          <div class="calendar-tit">
+            <span>{{month.month}}月</span> {{month.year}}</div>
+          <ul>
+            <li :class="{disable: day.isDisable,select: day.isCheckInDate||day.isCheckOutDate,selectB:selectCss(day.date)}" @click="selectDate(month, day)" v-for="(day,index) in month.date" :key="index">
+              <span>{{day.showDate}}</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <footer class="footer">
+        <span class="info">{{choiceDays}}</span>
+        <span class="btn" @click="confirm">保存</span>
+      </footer>
+    </div>
+
+  </transition>
 </template>
 
 <script>
-import util from './data.js';
+import util from './date.js';
+import mixins from './mixins.js';
 export default {
   name: 'ow-calendar',
+  mixins: [mixins],
   data() {
     return {
       allMonthData: [],
       checkInDate: {
-        date: null,
+        day: null,
         month: null,
       },
       checkOutDate: {
-        date: null,
+        day: null,
         month: null,
       },
     };
   },
   props: {
-    value: {
-      type: [String, Array],
-      default: '0',
-    },
     showMonthNumbers: {
       type: [Number, String],
       default: 12,
@@ -62,11 +64,15 @@ export default {
     },
     disabledDate: {
       type: Array,
-      default: () => ['2018-06-20'],
+      default: () => ['2018-06-20', '2018-07-02', '2019-01-02'],
     },
     multiple: {
       type: Boolean,
       default: false,
+    },
+    transition: {
+      type: String,
+      default: 'pop-fade',
     },
   },
   created() {
@@ -75,11 +81,38 @@ export default {
   computed: {
     resultDate() {
       // 单选模式
-      if (this.checkInDate.date.isCheckInDate && !this.multiple) return [this.checkInDate.date];
-
-      if (this.checkInDate.date.isCheckInDate && this.checkOutDate.date.isCheckOutDate && this.multiple)
-        return [this.checkInDate.date.date, this.checkOutDate.date.date];
+      if (this.checkInDate.day && this.checkInDate.day.isCheckInDate && !this.multiple)
+        return [this.checkInDate.day.date];
+      if (
+        // this.checkInDate.day &&
+        // this.checkOutDate.day &&
+        // this.checkInDate.day.isCheckInDate &&
+        // this.checkOutDate.day.isCheckOutDate &&
+        this.multiple
+      ) {
+        let startDate =
+          this.checkInDate.day && this.checkInDate.day.isCheckInDate ? this.checkInDate.day.date : undefined;
+        let endDate =
+          this.checkOutDate.day && this.checkOutDate.day.isCheckOutDate ? this.checkOutDate.day.date : undefined;
+        return [startDate, endDate];
+      }
       return [];
+    },
+    choiceDays() {
+      if (!this.checkInDate.day) return '未选择';
+      if (!this.multiple) return `已选择  ${this.checkInDate.day.date}`;
+      if (!this.checkOutDate.day || !this.checkOutDate.day.isCheckOutDate) return '请选择结束日期';
+      //
+      let left = this.leftDate;
+      let right = this.rightDate;
+      let iDays = parseInt(Math.abs(left - right) / 1000 / 60 / 60 / 24) + 1;
+      return `${iDays}天${iDays - 1}晚`;
+    },
+    leftDate() {
+      return new Date(this.checkInDate.day.date.replace(/-/g, '/'));
+    },
+    rightDate() {
+      return new Date(this.checkOutDate.day.date.replace(/-/g, '/'));
     },
   },
   methods: {
@@ -99,23 +132,21 @@ export default {
       for (let i = 0; i < 38; i++) {
         let date = i - preMonthDayCount;
         let showDate = date;
+        let thatDate = `${year}-${month < 10 ? '0' + month : month}-${showDate < 10 ? '0' + showDate : showDate}`;
+        let isDisable = this.disabledDate.findIndex(v => v == thatDate) !== -1;
         if (date <= 0) {
           showDate = '';
         } else if (date > lastDate) {
           continue;
         }
-        let isWeekend = false;
-        if ((showDate + firstWeekDay) % 7 === 0 || (showDate + firstWeekDay) % 7 === 1) {
-          isWeekend = true;
-        }
-        let isRestDay = false;
+        let isWeekend = (showDate + firstWeekDay) % 7 === 0 || (showDate + firstWeekDay) % 7 === 1;
         ret.push({
           showDate: showDate,
           isWeekend: isWeekend,
           isCheckInDate: false,
           isCheckOutDate: false,
-          isRestDay: isRestDay,
-          date: `${year}-${month < 10 ? '0' + month : month}-${showDate < 10 ? '0' + showDate : showDate}`,
+          isDisable,
+          date: thatDate,
         });
       }
       return ret;
@@ -139,7 +170,7 @@ export default {
       }
       // 第一个月今天之前的日期不可点击
       for (let i of temp[0].date) {
-        let today = new Date();
+        let today = new Date(this.startDate.replace(/-/g, '/'));
         if (i.showDate >= today.getDate()) {
           break;
         }
@@ -149,90 +180,84 @@ export default {
     },
     setCheckInDate(month, day) {
       this.checkInDate = {
-        date: day,
+        day: day,
         month: month,
       };
     },
     setCheckOutDate(month, day) {
       this.checkOutDate = {
-        date: day,
+        day: day,
         month: month,
       };
     },
+    decideSetCheckOutDate(month, day) {
+      let dayDate = new Date(day.date.replace(/-/g, '/'));
+      let checkInDate = this.leftDate;
+      if (dayDate > checkInDate && this.disabledFlag(day.date)) {
+        day.isCheckOutDate = true;
+        day.isCheckInDate = false;
+        this.setCheckOutDate(month, day);
+      } else {
+        this.checkInDate.day.isCheckInDate = false;
+        day.isCheckInDate = true;
+        this.setCheckInDate(month, day);
+      }
+    },
+
     selectDate(month, day) {
       if (day.isDisable) {
         return;
       }
-
-      if (this.checkInDate.date == null) {
+      // 没有checkInDate 和 单选的情况下
+      if (this.checkInDate.day == null || !this.multiple) {
+        // 处理单选模式
+        if (this.checkInDate.day) this.checkInDate.day.isCheckInDate = false;
         day.isCheckInDate = true;
         this.setCheckInDate(month, day);
         return;
       }
-
-      // 单选模式
-      if (!this.multiple) {
-        this.checkInDate.date.isCheckInDate = false;
+      // 选了checkIn  没有checkOut
+      if (this.checkOutDate.day == null || !this.checkOutDate.day.isCheckOutDate) {
+        this.decideSetCheckOutDate(month, day);
+        return;
+      }
+      // 都选了情况下再选,
+      if (this.checkInDate.day.isCheckInDate && this.checkOutDate.day.isCheckOutDate) {
+        this.checkInDate.day.isCheckInDate = false;
+        this.checkOutDate.day.isCheckOutDate = false;
         day.isCheckInDate = true;
         this.setCheckInDate(month, day);
         return;
-      }
-      if (this.checkOutDate.date == null) {
-        let dayDate = new Date(day.date);
-        let checkOutDate = new Date(this.checkInDate.date.date);
-        if (dayDate > checkOutDate) {
-          day.isCheckOutDate = true;
-          day.isCheckInDate = false;
-          this.setCheckOutDate(month, day);
-        } else {
-          this.checkInDate.date.isCheckInDate = false;
-          day.isCheckInDate = true;
-          this.setCheckInDate(month, day);
-        }
-        return;
-      }
-      if (this.checkInDate.date.isCheckInDate && this.checkOutDate.date.isCheckOutDate) {
-        this.checkInDate.date.isCheckInDate = false;
-        this.checkOutDate.date.isCheckOutDate = false;
-        day.isCheckInDate = true;
-        this.setCheckInDate(month, day);
-        return;
-      } else if (this.checkInDate.date.isCheckInDate && !this.checkOutDate.date.isCheckOutDate) {
-        // 判断点击是改变入住日期还是离店日期，年，年相等判断月，月相等判断日
-        let dayDate = new Date(day.date);
-        let checkOutDate = new Date(this.checkInDate.date.date);
-        if (dayDate > checkOutDate) {
-          day.isCheckOutDate = true;
-          day.isCheckInDate = false;
-          this.setCheckOutDate(month, day);
-          return;
-        } else {
-          this.checkInDate.date.isCheckInDate = false;
-          day.isCheckInDate = true;
-          this.setCheckInDate(month, day);
-          return;
-        }
       }
     },
     selectCss(date) {
       if (!this.multiple) return false;
       let now = new Date(date.replace(/-/g, '/'));
       if (!now) return false;
-      // alert(now);
       if (
-        this.checkInDate.date == null ||
-        this.checkOutDate.date == null ||
-        !this.checkInDate.date.isCheckInDate ||
-        !this.checkOutDate.date.isCheckOutDate
+        this.checkInDate.day == null ||
+        this.checkOutDate.day == null ||
+        !this.checkInDate.day.isCheckInDate ||
+        !this.checkOutDate.day.isCheckOutDate
       )
         return false;
-      let left = new Date(this.checkInDate.date.date.replace(/-/g, '/'));
-      let right = new Date(this.checkOutDate.date.date.replace(/-/g, '/'));
+      let left = this.leftDate;
+      let right = this.rightDate;
       return left <= now && now <= right;
     },
     confirm() {
-      console.log(this.resultDate);
-      this.$emit('confirm', this.resultDate);
+      this.show = false;
+      this.$emit('confirm', ...this.resultDate);
+    },
+    disabledFlag(checkOutDate) {
+      let left = this.leftDate;
+      let right = new Date(checkOutDate.replace(/-/g, '/'));
+      let disableItemIndex = this.disabledDate.findIndex(v => {
+        let vDate = new Date(v.replace(/-/g, '/'));
+        return left < vDate && vDate < right;
+      });
+      if (disableItemIndex == -1) return true;
+      return false;
     },
   },
 };
@@ -240,20 +265,18 @@ export default {
 
 <style lang="scss" scoped>
 @import url('../css/rest.css');
+@import '../css/iconfont.scss';
 .ow-calendar-wrapper {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  // padding: 40px 40px 0;
-  // overflow: auto;
   flex-direction: column;
   display: flex;
   justify-content: space-between;
   -webkit-user-select: none; /*webkit浏览器*/
   user-select: none;
-
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-tap-highlight-color: transparent; /* For some Androids */
 }
@@ -339,6 +362,15 @@ export default {
   background: #fff;
   display: flex;
   flex-wrap: wrap;
+  position: relative;
+  .close {
+    @extend .iconfont;
+    @extend .icon-guanbi;
+    position: absolute;
+    right: 40px;
+    top: 40px;
+    font-size: 32px;
+  }
 }
 .content {
   padding: 0px 40px;
@@ -373,5 +405,14 @@ export default {
     color: #fff;
     margin-top: 36px;
   }
+}
+.pop-fade-enter-active,
+.pop-fade-leave-active {
+  transition: opacity 0.3s;
+}
+
+.pop-fade-enter,
+.pop-fade-leave-to {
+  opacity: 0;
 }
 </style>

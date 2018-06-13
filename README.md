@@ -1,6 +1,7 @@
 # ow-calendar
 
-> A Vue.js project
+[![Build Status](https://travis-ci.org/HowardTangHw/ow-calendar.svg?branch=master)](https://travis-ci.org/HowardTangHw/ow-calendar)
+
 
 ## Build Setup
 

@@ -34,3 +34,7 @@ a {
 a:hover {
   color: #c81623
 }
+
+.ow-overflow-hidden {
+  overflow: hidden !important;
+}
