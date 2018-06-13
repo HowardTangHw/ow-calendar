@@ -279,6 +279,7 @@ export default {
   user-select: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-tap-highlight-color: transparent; /* For some Androids */
+  z-index: 1010;
 }
 .tit {
   height: 36px;

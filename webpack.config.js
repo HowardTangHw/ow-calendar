@@ -6,7 +6,7 @@ const webpackServer = {
   port: '8080'
 }
 module.exports = {
-  entry: './src/main.js',
+  entry: './src/lib/index.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',

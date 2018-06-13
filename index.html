@@ -9,8 +9,29 @@
 </head>
 
 <body>
-  <div id="app"></div>
+  <div id="app">
+    <div @click="calendarShow=true">按钮按钮</div>
+    <ow-calendar v-model="calendarShow" @confirm="fn" :multiple="true"></ow-calendar>
+  </div>
+  <script src="./node_modules/vue/dist/vue.js"></script>
   <script src="/dist/build.js"></script>
+  <script>
+    // Vue.use(owCalendar);
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          calendarShow: false
+        }
+      },
+      methods: {
+        fn(starDate, EndDate) {
+          console.log(starDate, EndDate);
+        },
+      },
+    })
+  </script>
+
 </body>
 
 </html>
