@@ -1,7 +1,7 @@
 {
   "name": "ow-calendar",
   "description": "A Vue.js project",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Howard Tang <2379034@qq.com>",
   "license": "MIT",
   "private": false,
@@ -36,5 +36,15 @@
     "vue-template-compiler": "^2.4.4",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.9.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/HowardTangHw/ow-calendar.git"
+  },
+  "keywords": [
+    "ow",
+    "vue",
+    "component",
+    "calendar"
+  ]
 }

@@ -4,7 +4,76 @@
 [![npm version](https://img.shields.io/npm/v/ow-calendar.svg?style=flat)](https://www.npmjs.com/package/ow-calendar)
 
 
-## Build Setup
+
+##  安装
+
+**NPM**
+
+```bash
+npm i ow-calendar
+```
+
+**YARN**
+
+```bash
+yarn add ow-calendear
+```
+
+
+
+## 使用方法
+
+### 全局引用
+
+```javascript
+import Vue from 'vue';
+import owCalendar from 'ow-calendar';
+
+Vue.use(owCalendar);
+
+```
+
+
+
+### 组件内引用
+
+在组件内
+
+```javascript
+import owCalendar from 'ow-calendar/src/lib/ow-calendar';
+```
+
+```javascript
+export default {
+    components: {
+         owCalendar
+    }
+}
+```
+
+
+
+## Api
+
+### props
+
+| 属性             | 说明             | 类型           | 默认值   |
+| :--------------- | ---------------- | -------------- | -------- |
+| showMonthNumbers | 要展示多少个月份 | Number, String | 12       |
+| startDate        | 开始的日期       | Date           | 今天     |
+| disabledDate     | 不可选的日期     | Array          | 无       |
+| multiple         | 开启多选模式     | Boolean        | false    |
+| transition       | 过渡效果         | String         | pop-fade |
+
+### Event:
+
+| 事件名  | 说明           | 返回值                                                      |
+| ------- | -------------- | ----------------------------------------------------------- |
+| confirm | 点击保存时触发 | 单选模式下:只有一个Date;<br />多选模式下: 开始时间,结束时间 |
+
+
+
+## 本地预览
 
 ``` bash
 # install dependencies
@@ -17,4 +86,4 @@ npm run dev
 npm run build
 ```
 
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+

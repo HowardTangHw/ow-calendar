@@ -375,7 +375,7 @@ export default {
 }
 .content {
   padding: 0px 40px;
-
+  background: #fff;
   position: relative;
   -webkit-box-flex: 1;
   -webkit-flex: 1;
