@@ -12,21 +12,22 @@
           <span>五</span>
           <span>六</span>
         </div>
-        <i class="close" @click="show=false"></i>
+        <i class="close" @click="show=false" />
       </header>
       <section class="content">
         <div class="calendar" v-for="(month,index) in allMonthData" :key="index">
           <div class="calendar-tit">
-            <span>{{month.month}}月</span> {{month.year}}</div>
+            <span>{{ month.month }}月</span> {{ month.year }}
+          </div>
           <ul>
             <li :class="{disable: day.isDisable,select: day.isCheckInDate||day.isCheckOutDate,selectB:selectCss(day.date)}" @click="selectDate(month, day)" v-for="(day,index) in month.date" :key="index">
-              <span>{{day.showDate}}</span>
+              <span>{{ day.showDate }}</span>
             </li>
           </ul>
         </div>
       </section>
       <footer class="footer">
-        <span class="info">{{choiceDays}}</span>
+        <span class="info">{{ choiceDays }}</span>
         <span class="btn" @click="confirm">保存</span>
       </footer>
     </div>
@@ -64,7 +65,7 @@ export default {
     },
     disabledDate: {
       type: Array,
-      default: () => ['2018-06-20', '2018-07-02', '2019-01-02'],
+      default: () => [],
     },
     multiple: {
       type: Boolean,
@@ -81,18 +82,13 @@ export default {
   computed: {
     resultDate() {
       // 单选模式
-      if (this.checkInDate.day && this.checkInDate.day.isCheckInDate && !this.multiple)
+      if (this.checkInDate.day && this.checkInDate.day.isCheckInDate && !this.multiple) {
         return [this.checkInDate.day.date];
-      if (
-        // this.checkInDate.day &&
-        // this.checkOutDate.day &&
-        // this.checkInDate.day.isCheckInDate &&
-        // this.checkOutDate.day.isCheckOutDate &&
-        this.multiple
-      ) {
-        let startDate =
+      }
+      if (this.multiple) {
+        const startDate =
           this.checkInDate.day && this.checkInDate.day.isCheckInDate ? this.checkInDate.day.date : undefined;
-        let endDate =
+        const endDate =
           this.checkOutDate.day && this.checkOutDate.day.isCheckOutDate ? this.checkOutDate.day.date : undefined;
         return [startDate, endDate];
       }
@@ -103,9 +99,9 @@ export default {
       if (!this.multiple) return `已选择  ${this.checkInDate.day.date}`;
       if (!this.checkOutDate.day || !this.checkOutDate.day.isCheckOutDate) return '请选择结束日期';
       //
-      let left = this.leftDate;
-      let right = this.rightDate;
-      let iDays = parseInt(Math.abs(left - right) / 1000 / 60 / 60 / 24) + 1;
+      const left = this.leftDate;
+      const right = this.rightDate;
+      const iDays = parseInt(Math.abs(left - right) / 1000 / 60 / 60 / 24) + 1;
       return `${iDays}天${iDays - 1}晚`;
     },
     leftDate() {
@@ -117,29 +113,29 @@ export default {
   },
   methods: {
     getMonthData(year, month) {
-      let ret = [];
+      const ret = [];
       if (!year || !month) {
-        let today = new Date(this.startDate.replace(/-/g, '/'));
+        const today = new Date(this.startDate.replace(/-/g, '/'));
         year = today.getFullYear();
         month = today.getMonth() + 1;
       }
-      let firstDay = new Date(year, month - 1, 1);
-      let firstWeekDay = firstDay.getDay();
-      let firstDayWeekDay = firstDay.getDay();
-      let preMonthDayCount = firstDayWeekDay - 1;
-      let lastDay = new Date(year, month, 0);
-      let lastDate = lastDay.getDate();
+      const firstDay = new Date(year, month - 1, 1);
+      const firstWeekDay = firstDay.getDay();
+      const firstDayWeekDay = firstDay.getDay();
+      const preMonthDayCount = firstDayWeekDay - 1;
+      const lastDay = new Date(year, month, 0);
+      const lastDate = lastDay.getDate();
       for (let i = 0; i < 38; i++) {
-        let date = i - preMonthDayCount;
+        const date = i - preMonthDayCount;
         let showDate = date;
-        let thatDate = `${year}-${month < 10 ? '0' + month : month}-${showDate < 10 ? '0' + showDate : showDate}`;
-        let isDisable = this.disabledDate.findIndex(v => v == thatDate) !== -1;
+        const thatDate = `${year}-${month < 10 ? '0' + month : month}-${showDate < 10 ? '0' + showDate : showDate}`;
+        const isDisable = this.disabledDate.findIndex(v => v === thatDate) !== -1;
         if (date <= 0) {
           showDate = '';
         } else if (date > lastDate) {
           continue;
         }
-        let isWeekend = (showDate + firstWeekDay) % 7 === 0 || (showDate + firstWeekDay) % 7 === 1;
+        const isWeekend = (showDate + firstWeekDay) % 7 === 0 || (showDate + firstWeekDay) % 7 === 1;
         ret.push({
           showDate: showDate,
           isWeekend: isWeekend,
@@ -152,10 +148,10 @@ export default {
       return ret;
     },
     getAllMonthData(num) {
-      let todayData = new Date(this.startDate.replace(/-/g, '/'));
+      const todayData = new Date(this.startDate.replace(/-/g, '/'));
       let thisYear = todayData.getFullYear();
       let thisMonth = todayData.getMonth() + 1;
-      let temp = [];
+      const temp = [];
       for (let i = 0; i < num; i++) {
         if (thisMonth > 12) {
           thisYear += 1;
@@ -169,8 +165,8 @@ export default {
         thisMonth += 1;
       }
       // 第一个月今天之前的日期不可点击
-      for (let i of temp[0].date) {
-        let today = new Date(this.startDate.replace(/-/g, '/'));
+      for (const i of temp[0].date) {
+        const today = new Date(this.startDate.replace(/-/g, '/'));
         if (i.showDate >= today.getDate()) {
           break;
         }
@@ -191,8 +187,8 @@ export default {
       };
     },
     decideSetCheckOutDate(month, day) {
-      let dayDate = new Date(day.date.replace(/-/g, '/'));
-      let checkInDate = this.leftDate;
+      const dayDate = new Date(day.date.replace(/-/g, '/'));
+      const checkInDate = this.leftDate;
       if (dayDate > checkInDate && this.disabledFlag(day.date)) {
         day.isCheckOutDate = true;
         day.isCheckInDate = false;
@@ -232,17 +228,18 @@ export default {
     },
     selectCss(date) {
       if (!this.multiple) return false;
-      let now = new Date(date.replace(/-/g, '/'));
+      const now = new Date(date.replace(/-/g, '/'));
       if (!now) return false;
       if (
         this.checkInDate.day == null ||
         this.checkOutDate.day == null ||
         !this.checkInDate.day.isCheckInDate ||
         !this.checkOutDate.day.isCheckOutDate
-      )
+      ) {
         return false;
-      let left = this.leftDate;
-      let right = this.rightDate;
+      }
+      const left = this.leftDate;
+      const right = this.rightDate;
       return left <= now && now <= right;
     },
     confirm() {
@@ -250,13 +247,13 @@ export default {
       this.$emit('confirm', ...this.resultDate);
     },
     disabledFlag(checkOutDate) {
-      let left = this.leftDate;
-      let right = new Date(checkOutDate.replace(/-/g, '/'));
-      let disableItemIndex = this.disabledDate.findIndex(v => {
-        let vDate = new Date(v.replace(/-/g, '/'));
+      const left = this.leftDate;
+      const right = new Date(checkOutDate.replace(/-/g, '/'));
+      const disableItemIndex = this.disabledDate.findIndex(v => {
+        const vDate = new Date(v.replace(/-/g, '/'));
         return left < vDate && vDate < right;
       });
-      if (disableItemIndex == -1) return true;
+      if (disableItemIndex === -1) return true;
       return false;
     },
   },

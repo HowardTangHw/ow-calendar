@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div @click="calendarShow=true">按钮按钮</div>
-    <ow-calendar v-model="calendarShow" @confirm="fn" :multiple="true"></ow-calendar>
+    <ow-calendar v-model="calendarShow" @confirm="fn" :multiple="true" />
   </div>
 </template>
 

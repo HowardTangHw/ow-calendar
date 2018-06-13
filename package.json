@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "lint": "./node_modules/.bin/eslint ./packages --ext .js,.vue",
+    "lint": "./node_modules/.bin/eslint ./src --ext .js,.vue",
+    "fix": "./node_modules/.bin/eslint ./src --fix --ext .js,.vue",
     "pub": "npm run build && npm publish"
   },
   "dependencies": {
@@ -29,6 +30,8 @@
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.7",
     "eslint": "^4.19.1",
+    "eslint-plugin-vue": "^4.5.0",
+    "eslint-plugin-vue-libs": "^3.0.0",
     "file-loader": "^1.1.4",
     "node-sass": "^4.5.3",
     "sass-loader": "^6.0.6",
