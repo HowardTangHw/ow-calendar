@@ -1,7 +1,7 @@
 {
   "name": "ow-calendar",
   "description": "A Vue.js project",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "Howard Tang <2379034@qq.com>",
   "license": "MIT",
   "private": false,

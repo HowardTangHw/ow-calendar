@@ -79,6 +79,10 @@ export default {
       type: [Number, String],
       default: 0,
     },
+    infoText: {
+      type: String,
+      default: '',
+    },
   },
   created() {
     this.getAllMonthData(this.showMonthNumbers);
@@ -121,7 +125,10 @@ export default {
         case 2:
           return '请选择结束日期';
         case 3:
-          return `选择天数不足，至少需要选择${this.needChoiceDays}天`;
+          let str = `至少选择${this.needChoiceDays}天${this.needChoiceDays - 1}晚`;
+          this.$emit('multiple-select', ...this.resultDate);
+          if (this.needChoiceDays > 0 && this.infoText.length > 0) str = this.infoText;
+          return str;
         default:
           return `${this.choiceDaysCount}天${this.choiceDaysCount - 1}晚`;
       }
