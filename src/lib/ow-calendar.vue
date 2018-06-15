@@ -265,9 +265,11 @@ export default {
       return left <= now && now <= right;
     },
     confirm() {
-      if (this.choiceFlag !== true) return false;
-      this.show = false;
-      this.$emit('confirm', ...this.resultDate);
+      if (this.choiceFlag === true || this.choiceFlag === 1) {
+        this.show = false;
+        this.$emit('confirm', ...this.resultDate);
+      }
+      return false;
     },
     disabledFlag(checkOutDate) {
       const left = this.leftDate;

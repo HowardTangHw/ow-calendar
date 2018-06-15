@@ -10,25 +10,40 @@
 
 <body>
   <div id="app">
-    <div @click="calendarShow=true">按钮按钮</div>
+    <div style="font-size: 32px" @click="calendarShow=true">多选模式{{txt1}}</div>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div style="font-size: 32px" @click="calendarShow2=true">单选模式{{txt2}}</div>
     <ow-calendar v-model="calendarShow" @confirm="fn" :multiple="true" :start-date="'2019-06-20'" :show-month-numbers="24" :disabled-date="['2018-06-20']"
       :need-choice-days="10"></ow-calendar>
+    <ow-calendar v-model="calendarShow2" @confirm="fn2" :show-month-numbers="24"></ow-calendar>
   </div>
-  <script src="./node_modules/vue/dist/vue.js"></script>
-  <script src="/dist/build.js"></script>
+  <script src="//cdn.bootcss.com/vue/2.5.11/vue.min.js"></script>
+  <script src="./dist/build.js"></script>
   <script>
     // Vue.use(owCalendar);
     new Vue({
       el: '#app',
       data() {
         return {
-          calendarShow: false
+          calendarShow: false,
+          txt1: '',
+          calendarShow2: false,
+          txt2: ''
         }
       },
       methods: {
-        fn(starDate, EndDate) {
-          console.log(starDate, EndDate);
+        fn(...data) {
+          this.txt1 = `开始日期${data[0]},结束时间${data[1]},选择天数${data[2]}`
         },
+        fn2(...data) {
+          this.txt2 = `选择的日期${data[0]}`
+        }
       },
     })
   </script>
