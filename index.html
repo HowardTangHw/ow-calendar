@@ -20,7 +20,7 @@
     <br/>
     <div style="font-size: 32px" @click="calendarShow2=true">单选模式{{txt2}}</div>
     <ow-calendar v-model="calendarShow" @confirm="fn" :multiple="true" :start-date="'2019-06-20'" :show-month-numbers="24" :disabled-date="['2018-06-20']"
-      :need-choice-days="10" :info-text="infoText" @multiple-select="multipleChoiceEnd"></ow-calendar>
+      :need-choice-days="10" :info-text="infoText" @multiple-choice-end="multipleChoiceEnd"></ow-calendar>
     <ow-calendar v-model="calendarShow2" @confirm="fn2" :show-month-numbers="24"></ow-calendar>
   </div>
   <script src="//cdn.bootcss.com/vue/2.5.11/vue.min.js"></script>
@@ -48,7 +48,8 @@
         },
         multipleChoiceEnd(...data) {
           console.log(data);
-          this.infoText = data[0]
+          this.infoText = data[0];
+          if (data[2] > 6) this.infoText = '';
         }
       },
     })
