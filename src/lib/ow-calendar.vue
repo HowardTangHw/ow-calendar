@@ -29,6 +29,7 @@
       <footer class="footer">
         <span class="info">{{ choiceInfo }}</span>
         <span :class="['btn',choiceFlag==true?'':'btn-cancel']" @click="confirm">保存</span>
+        <span @click="show=false" class="cancel">取消</span>
       </footer>
     </div>
 
@@ -290,6 +291,13 @@ export default {
       return false;
     },
   },
+  watch: {
+    show(val) {
+      if (val === false) {
+        this.$emit('close', val);
+      }
+    },
+  },
 };
 </script>
 
@@ -415,9 +423,9 @@ export default {
   -webkit-overflow-scrolling: touch;
 }
 .footer {
-  display: flex;
+  // display: flex;
   height: 140px;
-  justify-content: space-between;
+  // justify-content: space-between;
   background: #f5f5f5;
   padding: 0 40px;
 
@@ -436,9 +444,17 @@ export default {
     font-size: 28px;
     color: #fff;
     margin-top: 36px;
+    float: right;
   }
   .btn-cancel {
     background: #e5e5e5;
+  }
+  .cancel {
+    font-size: 28px;
+    color: #209cdf;
+    margin-right: 56px;
+    float: right;
+    line-height: 140px;
   }
 }
 .pop-fade-enter-active,
