@@ -62,7 +62,7 @@ export default {
     },
     startDate: {
       type: [String],
-      default: util.format(new Date(), 'yyyy-MM-dd'),
+      default: util.format(new Date(), 'yyyy/MM/dd'),
     },
     disabledDate: {
       type: Array,
@@ -159,8 +159,8 @@ export default {
       for (let i = 0; i < 38; i++) {
         const date = i - preMonthDayCount;
         let showDate = date;
-        const thatDate = `${year}-${month < 10 ? '0' + month : month}-${showDate < 10 ? '0' + showDate : showDate}`;
-        const isDisable = this.disabledDate.findIndex(v => v === thatDate) !== -1;
+        const thatDate = `${year}/${month < 10 ? '0' + month : month}/${showDate < 10 ? '0' + showDate : showDate}`;
+        const isDisable = this.disabledDate.findIndex(v => util.format(new Date(v), 'yyyy/MM/dd') === thatDate) !== -1;
         if (date <= 0) {
           showDate = '';
         } else if (date > lastDate) {
