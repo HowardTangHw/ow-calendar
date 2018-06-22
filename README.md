@@ -66,6 +66,7 @@ export default {
 | transition         | 过渡效果                            | String         | pop-fade                                                     |
 | need-choice-days   | 至少选择的天数,与multiple配合使用   | Number,String  | 0                                                            |
 | info-text          | 提示文案,与need-choice-days配合使用 | String         | 当选择的日期小于need-choice-days所设置时:<br />文案显示:请至少选择needChoiceDays天needChoiceDays - 1晚<br />当选择的日期大于等于need-choice-days所设置时:无文案 |
+| format-type        | 显示的日期格式                      |                | `yyyy/MM/dd` ps:月份需要大写                                 |
 
 ### Event:
 

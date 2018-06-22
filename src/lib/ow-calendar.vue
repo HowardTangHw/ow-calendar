@@ -53,6 +53,7 @@ export default {
         day: null,
         month: null,
       },
+      util,
     };
   },
   props: {
@@ -84,6 +85,10 @@ export default {
       type: String,
       default: '',
     },
+    formatType: {
+      type: String,
+      default: 'yyyy/MM/dd',
+    },
   },
   created() {
     this.getAllMonthData(this.showMonthNumbers);
@@ -92,17 +97,18 @@ export default {
     resultDate() {
       // 单选模式
       if (this.checkInDate.day && this.checkInDate.day.isCheckInDate && !this.multiple) {
-        return [this.checkInDate.day.date];
+        return [this.formatFn(this.checkInDate.day.date)];
       }
       if (this.multiple) {
         const startDate =
           this.checkInDate.day && this.checkInDate.day.isCheckInDate ? this.checkInDate.day.date : undefined;
         const endDate =
           this.checkOutDate.day && this.checkOutDate.day.isCheckOutDate ? this.checkOutDate.day.date : undefined;
-        return [startDate, endDate, this.choiceDaysCount];
+        return [this.formatFn(startDate), this.formatFn(endDate), this.choiceDaysCount];
       }
       return [];
     },
+
     choiceDaysCount() {
       const left = this.leftDate;
       const right = this.rightDate;
@@ -122,7 +128,7 @@ export default {
         case 0:
           return '未选择';
         case 1:
-          return `已选择  ${this.checkInDate.day.date}`;
+          return `已选择  ${this.formatFn(this.checkInDate.day.date)}`;
         case 2:
           return '请选择结束日期';
         case 3:
@@ -143,6 +149,9 @@ export default {
     },
   },
   methods: {
+    formatFn(date) {
+      return util.format(new Date(date), this.formatType);
+    },
     getMonthData(year, month) {
       const ret = [];
       if (!year || !month) {
@@ -160,7 +169,7 @@ export default {
         const date = i - preMonthDayCount;
         let showDate = date;
         const thatDate = `${year}/${month < 10 ? '0' + month : month}/${showDate < 10 ? '0' + showDate : showDate}`;
-        const isDisable = this.disabledDate.findIndex(v => util.format(new Date(v), 'yyyy/MM/dd') === thatDate) !== -1;
+        const isDisable = this.disabledDate.findIndex(v => this.formatFn(v) === this.formatFn(thatDate)) !== -1;
         if (date <= 0) {
           showDate = '';
         } else if (date > lastDate) {
