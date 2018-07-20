@@ -1,6 +1,6 @@
 <template>
   <transition :name="transition">
-    <div class="ow-calendar-wrapper" v-show="show">
+    <div class="ow-calendar-wrapper" v-show="show" @touchmove.prevent.stop>
       <header class="header">
         <div class="tit">选择时间</div>
         <div class="days-list">
