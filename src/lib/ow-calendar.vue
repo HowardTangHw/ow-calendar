@@ -40,7 +40,7 @@
 import util from './date.js';
 import mixins from './mixins.js';
 export default {
-  name: 'ow-calendar',
+  name: 'owCalendar',
   mixins: [mixins],
   data() {
     return {
@@ -94,7 +94,7 @@ export default {
     this.getAllMonthData(this.showMonthNumbers);
   },
   computed: {
-    resultDate() {
+    resultDate: function resultDate() {
       // 单选模式
       if (this.checkInDate.day && this.checkInDate.day.isCheckInDate && !this.multiple) {
         return [this.formatFn(this.checkInDate.day.date)];
