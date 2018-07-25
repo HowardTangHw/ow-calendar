@@ -2,6 +2,7 @@
 node_modules/
 npm-debug.log
 yarn-error.log
+test/coverage
 
 # Editor directories and files
 .idea
@@ -9,4 +10,3 @@ yarn-error.log
 *.ntvs*
 *.njsproj
 *.sln
-test/coverage
