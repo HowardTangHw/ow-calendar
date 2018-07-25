@@ -253,18 +253,15 @@ export default {
         return;
       }
       // 都选了情况下再选,
-      if (this.checkInDate.day.isCheckInDate && this.checkOutDate.day.isCheckOutDate) {
-        this.checkInDate.day.isCheckInDate = false;
-        this.checkOutDate.day.isCheckOutDate = false;
-        day.isCheckInDate = true;
-        this.setCheckInDate(month, day);
-        return;
-      }
+      this.checkInDate.day.isCheckInDate = false;
+      this.checkOutDate.day.isCheckOutDate = false;
+      day.isCheckInDate = true;
+      this.setCheckInDate(month, day);
+      return;
     },
     selectCss(date) {
       if (!this.multiple) return false;
       const now = new Date(date.replace(/-/g, '/'));
-      if (!now) return false;
       if (
         this.checkInDate.day == null ||
         this.checkOutDate.day == null ||
