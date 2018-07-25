@@ -1,6 +1,6 @@
 ow-calendar
 
-[![Build Status](https://travis-ci.org/HowardTangHw/ow-calendar.svg?branch=master)](https://travis-ci.org/HowardTangHw/ow-calendar)
+[![Build Status](https://travis-ci.org/HowardTangHw/ow-calendar.svg?branch=develop)](https://travis-ci.org/HowardTangHw/ow-calendar)
 [![npm version](https://img.shields.io/npm/v/ow-calendar.svg?style=flat)](https://www.npmjs.com/package/ow-calendar)
 
 [![Coverage Status](https://img.shields.io/codecov/c/github/HowardTangHw/ow-calendar/develop.svg)](https://codecov.io/gh/HowardTangHw/ow-calendar/branch/develop)
