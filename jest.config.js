@@ -9,7 +9,7 @@ module.exports = {
   },
   collectCoverageFrom: ['src/lib/*.{js,vue}', '!**/node_modules/**', '!src/lib/index.js'],
   collectCoverage: true,
-  coverageReporters: ['html', 'text-summary'],
+  coverageReporters: ['html', 'lcov', 'text-summary'],
   coverageDirectory: './test/coverage',
   snapshotSerializers: [
     // 配置快照测试
