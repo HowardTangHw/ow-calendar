@@ -10,7 +10,7 @@ cache:
 branches:
   only:
   - master
-  - dev
+  - develop
 install:
 - |
     yarn install
