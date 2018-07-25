@@ -135,7 +135,7 @@ describe('getAllowMonth', () => {
 
   it('cick', () => {
     wrapper.find('.can-select').trigger('click');
-    wrapper.setProps({ value: false });
-    wrapper.setProps({ value: true });
+    // wrapper.setProps({ value: false });
+    // wrapper.setProps({ value: true });
   });
 });
