@@ -5,11 +5,14 @@ module.exports = {
     '.*\\.(vue)$': '<rootDir>/node_modules/vue-jest',
   },
   moduleNameMapper: {
-    // '^packages/(.*)$': '<rootDir>/packages/$1',
     '^@/(.*)$': '<rootDir>/src/$1',
   },
-  collectCoverageFrom: ['src/lib/*.vue', '!**/node_modules/**'],
+  collectCoverageFrom: ['src/lib/*.{js,vue}', '!**/node_modules/**', '!src/lib/index.js'],
   collectCoverage: true,
   coverageReporters: ['html', 'text-summary'],
   coverageDirectory: './test/coverage',
+  snapshotSerializers: [
+    // 配置快照测试
+    '<rootDir>/node_modules/jest-serializer-vue',
+  ],
 };
