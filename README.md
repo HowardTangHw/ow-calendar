@@ -49,16 +49,17 @@ export default {
 
 ### props
 
-| 属性               | 说明                                  | 类型           | 默认值                                                                                                                                                                  |
-| :----------------- | ------------------------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| show-month-numbers | 要展示多少个月份                      | Number, String | 12                                                                                                                                                                      |
-| start-date         | 开始的日期                            | Date           | 今天                                                                                                                                                                    |
-| disabled-date      | 不可选的日期                          | Array          | 无                                                                                                                                                                      |
-| multiple           | 开启多选模式                          | Boolean        | false                                                                                                                                                                   |
-| transition         | 过渡效果                              | String         | pop-fade                                                                                                                                                                |
-| need-choice-days   | 至少选择的天数,与 multiple 配合使用   | Number,String  | 0                                                                                                                                                                       |
+| 属性               | 说明                                  | 类型           | 默认值                                                       |
+| :----------------- | ------------------------------------- | -------------- | ------------------------------------------------------------ |
+| show-month-numbers | 要展示多少个月份                      | Number, String | 12                                                           |
+| start-date         | 开始的日期                            | Date           | 今天                                                         |
+| disabled-date      | 不可选的日期                          | Array          | 无                                                           |
+| multiple           | 开启多选模式                          | Boolean        | false                                                        |
+| transition         | 过渡效果                              | String         | pop-fade                                                     |
+| need-choice-days   | 至少选择的天数,与 multiple 配合使用   | Number,String  | 0                                                            |
+| Max-choice-days    | 最多选择天数,与 multiple 配合使用     | Number,String  | 15                                                           |
 | info-text          | 提示文案,与 need-choice-days 配合使用 | String         | 当选择的日期小于 need-choice-days 所设置时:<br />文案显示:请至少选择 needChoiceDays 天 needChoiceDays - 1 晚<br />当选择的日期大于等于 need-choice-days 所设置时:无文案 |
-| format-type        | 显示的日期格式                        |                | `yyyy/MM/dd` ps:月份需要大写                                                                                                                                            |
+| format-type        | 显示的日期格式                        |                | `yyyy/MM/dd` ps:月份需要大写                                 |
 
 ### Event:
 
