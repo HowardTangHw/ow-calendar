@@ -89,6 +89,10 @@ export default {
       type: String,
       default: 'yyyy/MM/dd',
     },
+    maxChoiceDays: {
+      type: [Number, String],
+      default: 15,
+    },
   },
   created() {
     this.getAllMonthData(this.showMonthNumbers);
@@ -119,8 +123,8 @@ export default {
       if (!this.checkInDate.day) return 0;
       if (!this.multiple) return 1;
       if (!this.checkOutDate.day || !this.checkOutDate.day.isCheckOutDate) return 2;
-
-      if (this.choiceDaysCount < this.needChoiceDays) return 3;
+      if (this.choiceDaysCount < this.needChoiceDays && this.choiceDaysCount <= this.maxChoiceDays) return 3;
+      if (this.choiceDaysCount > this.maxChoiceDays) return 4;
       return true;
     },
     choiceInfo() {
@@ -136,6 +140,10 @@ export default {
           this.$emit('multiple-choice-end', ...this.resultDate);
           if (this.needChoiceDays > 0 && this.infoText.length > 0) str = this.infoText;
           return str;
+        case 4:
+          const info = `最多选择${this.maxChoiceDays}天${this.maxChoiceDays - 1}晚`;
+          this.$emit('multiple-choice-end', ...this.resultDate);
+          return info;
         default:
           this.$emit('multiple-choice-end', ...this.resultDate);
           return this.needChoiceDays > 0 && this.infoText.length > 0 ? this.infoText : '';
@@ -290,13 +298,6 @@ export default {
       });
       if (disableItemIndex === -1) return true;
       return false;
-    },
-  },
-  watch: {
-    show(val) {
-      if (val === false) {
-        this.$emit('close', val);
-      }
     },
   },
 };
