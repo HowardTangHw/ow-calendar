@@ -22,6 +22,8 @@ export default {
     show(val) {
       if (val === false) document.body.classList.remove('ow-overflow-hidden');
       this.$emit('input', val);
+
+      this.$emit('close', val);
     },
   },
 };
