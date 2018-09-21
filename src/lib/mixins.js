@@ -20,10 +20,11 @@ export default {
       immediate: true,
     },
     show(val) {
-      if (val === false) document.body.classList.remove('ow-overflow-hidden');
+      if (val === false) {
+        document.body.classList.remove('ow-overflow-hidden');
+        this.$emit('close', val);
+      }
       this.$emit('input', val);
-
-      this.$emit('close', val);
     },
   },
 };
