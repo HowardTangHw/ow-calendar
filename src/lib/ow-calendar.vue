@@ -155,6 +155,17 @@ export default {
     rightDate() {
       return new Date(this.checkOutDate.day.date.replace(/-/g, '/'));
     },
+    // 用hash表处理不可选日期,优化
+    disableDateHash() {
+      let hash = {};
+      this.disabledDate.forEach(e => {
+        let now = e.split('-');
+        if (!hash[now[0]]) hash[now[0]] = {};
+        if (!hash[now[0]][now[1]]) hash[now[0]][now[1]] = {};
+        if (!hash[now[0]][now[1]][now[2]]) hash[now[0]][now[1]][now[2]] = true;
+      });
+      return hash;
+    },
   },
   methods: {
     formatFn(date) {
@@ -172,7 +183,7 @@ export default {
         const date = i - preMonthDayCount;
         let showDate = date;
         const thatDate = `${year}/${month < 10 ? '0' + month : month}/${showDate < 10 ? '0' + showDate : showDate}`;
-        const isDisable = this.disabledDate.findIndex(v => this.formatFn(v) === this.formatFn(thatDate)) !== -1;
+        const isDisable = this.disableDateHash[year] && this.disableDateHash[month] && this.disableDateHash[showDate];
         if (date <= 0) {
           showDate = '';
         } else if (date > lastDate) {
