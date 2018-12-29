@@ -157,9 +157,11 @@ export default {
     },
     // 用hash表处理不可选日期,优化
     disableDateHash() {
-      let hash = {};
+      const hash = {};
       this.disabledDate.forEach(e => {
-        let now = e.split('-');
+        const now = this.format(e)
+          .split('-')
+          .split('/');
         if (!hash[now[0]]) hash[now[0]] = {};
         if (!hash[now[0]][now[1]]) hash[now[0]][now[1]] = {};
         if (!hash[now[0]][now[1]][now[2]]) hash[now[0]][now[1]][now[2]] = true;
