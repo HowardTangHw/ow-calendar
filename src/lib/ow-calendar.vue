@@ -12,15 +12,25 @@
           <span>五</span>
           <span>六</span>
         </div>
-        <i class="close" @click="show=false" />
+        <i class="close" @click="show = false" />
       </header>
       <section class="content">
-        <div class="calendar" v-for="(month,index) in allMonthData" :key="index">
+        <div class="calendar" v-for="(month, index) in allMonthData" :key="index">
           <div class="calendar-tit">
             <span>{{ month.month }}月</span> {{ month.year }}
           </div>
           <ul>
-            <li :class="{disable: day.isDisable,'can-select':!day.isDisable,select: day.isCheckInDate||day.isCheckOutDate,'select-b':selectCss(day.date)}" @click="selectDate(month, day)" v-for="(day,innerIndex) in month.date" :key="innerIndex">
+            <li
+              :class="{
+                disable: day.isDisable,
+                'can-select': !day.isDisable,
+                select: day.isCheckInDate || day.isCheckOutDate,
+                'select-b': selectCss(day.date),
+              }"
+              @click="selectDate(month, day)"
+              v-for="(day, innerIndex) in month.date"
+              :key="innerIndex"
+            >
               <span>{{ day.showDate }}</span>
             </li>
           </ul>
@@ -28,11 +38,10 @@
       </section>
       <footer class="footer">
         <span class="info">{{ choiceInfo }}</span>
-        <span :class="['btn',choiceFlag==true?'':'btn-cancel']" @click="confirm">保存</span>
-        <span @click="show=false" class="cancel">取消</span>
+        <span :class="['btn', choiceFlag == true ? '' : 'btn-cancel']" @click="confirm">保存</span>
+        <span @click="show = false" class="cancel">取消</span>
       </footer>
     </div>
-
   </transition>
 </template>
 
@@ -159,8 +168,9 @@ export default {
     disableDateHash() {
       const hash = {};
       this.disabledDate.forEach(e => {
-        const now = this.format(e)
+        const now = this.formatFn(e)
           .split('-')
+          .toString()
           .split('/');
         if (!hash[now[0]]) hash[now[0]] = {};
         if (!hash[now[0]][now[1]]) hash[now[0]][now[1]] = {};
