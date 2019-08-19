@@ -2514,8 +2514,8 @@ escope@^3.6.0:
     estraverse "^4.1.1"
 
 eslint-plugin-vue-libs@^3.0.0:
-  version "3.0.0"
-  resolved "http://registry.npm.taobao.org/eslint-plugin-vue-libs/download/eslint-plugin-vue-libs-3.0.0.tgz#9b81ae18c654eb2370b9c17d44b58ab759eadf2b"
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-vue-libs/-/eslint-plugin-vue-libs-3.0.2.tgz#9a3dfd8fb989e6c77fd4c1dbd46f0dfe13ed0d55"
   dependencies:
     babel-eslint "^8.2.3"
     eslint-plugin-vue "^4.5.0"
