@@ -22,7 +22,7 @@
     "not ie <= 8"
   ],
   "devDependencies": {
-    "@vue/test-utils": "1.0.0-beta.21",
+    "@vue/test-utils": "1.0.0-beta.29",
     "babel-core": "6.26.3",
     "babel-jest": "23.4.0",
     "babel-loader": "7.1.5",
